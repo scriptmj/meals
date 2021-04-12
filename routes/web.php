@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MealController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\IngredientController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,9 +17,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/', 'App\Http\Controllers\MealController@index')->name('dashboard.index');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
