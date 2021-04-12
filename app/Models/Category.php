@@ -15,4 +15,8 @@ class Category extends Model
     public function ingredients(){
         return $this->belongsToMany('App\Models\Ingredient');
     }
+
+    public function meals(){
+        return $this->belongsToMany('App\Models\Meal');
+    }
 }

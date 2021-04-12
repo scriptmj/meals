@@ -14,4 +14,8 @@ class Meal extends Model
     public function ingredients(){
         return $this->hasMany('App\Model\Ingredient');
     }
+
+    public function categories(){
+        return $this->hasMany('App\Models\Category');
+    }
 }

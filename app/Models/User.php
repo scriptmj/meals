@@ -45,4 +45,12 @@ class User extends Authenticatable
     public function isAdmin(){
         return $this->admin;
     }
+
+    public function meals(){
+        return $this->hasMany('App\Models\Meal', 'meals_picked');
+    }
+
+    public function ingredients(){
+        return $this->hasMany('App\Models\Ingredient', 'ingredients_supply');
+    }
 }
