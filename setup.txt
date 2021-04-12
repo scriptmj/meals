@@ -1,0 +1,34 @@
+Users
+username
+email
+password
+admin boolean default false
+
+Ingredients
+name
+
+
+Categories
+name
+
+
+IngredientsCategories
+ingredient_id
+category_id
+
+
+IngredientsSupply
+user_id
+ingredient_id
+amount default 1
+
+
+Meals
+category_id
+meal_size default 1
+
+
+MealsIngredients
+meal_id
+ingredient_id
+ingredient_amount default 1
