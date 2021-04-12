@@ -24,11 +24,20 @@ amount default 1
 
 
 Meals
-category_id
 meal_size default 1
+
 
 
 MealsIngredients
 meal_id
 ingredient_id
 ingredient_amount default 1
+
+MealsCategories
+meal_id
+category_id
+
+
+MealsPicked
+user_id
+meal_id
