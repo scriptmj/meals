@@ -21,6 +21,6 @@ class Meal extends Model
     }
 
     public function categories(){
-        return $this->hasMany('App\Models\Category', 'meal_id', 'meals_categories');
+        return $this->belongsToMany('App\Models\Category','meals_categories', 'meal_id');
     }
 }

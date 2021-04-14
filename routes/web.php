@@ -24,4 +24,7 @@ use App\Http\Controllers\UserController;
 Route::get('/', 'App\Http\Controllers\MealController@index')->name('dashboard.index');
 
 
+
+Route::post('/', 'App\Http\Controllers\IngredientController@addSupply')->name('supply.add');
+
 require __DIR__.'/auth.php';

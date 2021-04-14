@@ -35,6 +35,26 @@
                     None so far. Add ingredients to find more meals
                 @endforelse
             </div>
+
+            <!-- Add ingredient -->
+            <div class="overflow-auto h-24 container bg-gray-50 rounded-md shadow mb-3 mr-3 col-auto">
+                <h3 class="text-l text-gray-800">Add ingredients:</h3>
+                <form action="{{route('supply.add')}}" method="POST">
+                @csrf
+                <select 
+                class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                name="ingredient" id="ingredient">
+                    @forelse($ingredients as $ingredient)
+                    <option value="{{$ingredient->id}}">{{ucfirst($ingredient->name)}}</option>
+                    @empty
+                    @endforelse
+                </select>
+                <x-input type="number" name="amount" id="amount" placeholder="Amount" class="w-28"/>
+                <x-button class="ml-3">
+                    {{ __('Add') }}
+                </x-button>
+                </form>
+            </div>
         </div>
     </div>
 </x-app-layout>

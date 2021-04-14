@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 // use App\Models\Ingredient;
 use App\Models\Meal;
+use App\Models\Ingredient;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -13,7 +14,8 @@ class MealController extends Controller
     public function index(){
         $ingredientsSupply = Auth::user()->ingredients;
         $meals = $this->findAllValidMeals($ingredientsSupply);
-        return view('dashboard.dashboard', ['ingredientsSupply' => $ingredientsSupply, 'meals' => $meals]);
+        $ingredients = Ingredient::get();
+        return view('dashboard.dashboard', ['ingredientsSupply' => $ingredientsSupply, 'meals' => $meals, 'ingredients' => $ingredients]);
     }
 
     public function findAllValidMeals($supply){
