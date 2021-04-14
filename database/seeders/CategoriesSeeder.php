@@ -33,14 +33,5 @@ class CategoriesSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ]);
         }
-
-        for($i = 0 ; $i < 30 ; $i++){
-            DB::table('ingredients_categories')->insertOrIgnore([
-                'ingredient_id' => rand(1, Ingredient::count()),
-                'category_id' => rand(1, Category::count()),
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ]);
-        }   
     }
 }

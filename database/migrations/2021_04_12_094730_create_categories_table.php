@@ -19,6 +19,10 @@ class CreateCategoriesTable extends Migration
             $table->string('name');
             $table->string('icon');
         });
+
+        Schema::table('ingredients', function (Blueprint $table) {
+            $table->foreignId('category_id')->constrained();
+        });
     }
 
     /**

@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Category;
 use App\Models\Ingredient;
 
 class IngredientsSeeder extends Seeder
@@ -25,6 +26,7 @@ class IngredientsSeeder extends Seeder
                 'name' => $ingredient,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
+                'category_id' => rand(1, Category::count()),
             ]);
         }
 
@@ -35,6 +37,17 @@ class IngredientsSeeder extends Seeder
                 'user_id' => rand(1, User::count()),
                 'ingredient_id' => rand(1, Ingredient::count()),
                 'amount' => rand(1, 8),
+            ]);
+        }
+
+        // For admin testing
+        for($i = 0 ; $i < count($ingredients) ; $i++){
+            DB::table('ingredients_supply')->insert([
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+                'user_id' => 11,
+                'ingredient_id' => $i+1,
+                'amount' => 10,
             ]);
         }
     }

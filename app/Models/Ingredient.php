@@ -18,4 +18,8 @@ class Ingredient extends Model
     public function meals(){
         return $this->belongsToMany('App\Models\Meal');
     }
+
+    public function category(){
+        return $this->belongsTo('App\Models\Category');
+    }
 }

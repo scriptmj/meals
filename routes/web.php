@@ -23,8 +23,5 @@ use App\Http\Controllers\UserController;
 
 Route::get('/', 'App\Http\Controllers\MealController@index')->name('dashboard.index');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';

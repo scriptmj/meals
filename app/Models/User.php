@@ -51,6 +51,6 @@ class User extends Authenticatable
     }
 
     public function ingredients(){
-        return $this->hasMany('App\Models\Ingredient', 'ingredients_supply');
+        return $this->hasMany('App\Models\IngredientsSupply');
     }
 }

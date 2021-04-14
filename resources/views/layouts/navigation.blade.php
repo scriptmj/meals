@@ -37,11 +37,12 @@
                     {{ __('None') }}
                 </x-nav-link> 
 
-                @elseif(Auth::user() && Auth::user()->isAdmin())
+                @if(Auth::user() && Auth::user()->isAdmin())
                 <!-- Logged in admin -->
                 <x-nav-link :href="route('dashboard.index')" :active="request()->routeIs('dashboard.index')">
-                    {{ __('Home') }}
+                    {{ __('Admin') }}
                 </x-nav-link> 
+                @endif
 
                 @else
                 <!-- Guest -->
@@ -97,7 +98,10 @@
 
                     <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Settings</a>
 
-                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Sign out</a>
+                    <form action="{{route('logout')}}" method="POST">
+                    @csrf
+                    <button type="submit" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Sign out</button>
+                    </form>
                 
                 </x-slot>
               </x-dropdown>

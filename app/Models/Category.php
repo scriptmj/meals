@@ -13,10 +13,10 @@ class Category extends Model
 
 
     public function ingredients(){
-        return $this->belongsToMany('App\Models\Ingredient');
+        return $this->hasMany('App\Models\Ingredient');
     }
 
     public function meals(){
-        return $this->belongsToMany('App\Models\Meal');
+        return $this->hasMany('App\Models\Meal');
     }
 }
