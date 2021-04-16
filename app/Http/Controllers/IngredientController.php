@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\IngredientsSupply;
+use App\Models\Ingredient;
+use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 
 class IngredientController extends Controller
@@ -26,6 +28,42 @@ class IngredientController extends Controller
             $ingredientSupply->save();
         }
         return redirect(route('dashboard.index'));
+    }
+
+    public function ingredientControl(){
+        if(!Auth::user()->isAdmin()){
+            return view('error', ['error' => __('auth.notAdmin')]);
+        } else {
+            $categories = Category::get();
+            $ingredients = Ingredient::orderBy('name')->get();
+            return view('ingredient.control', ['categories' => $categories, 'ingredients' => $ingredients]);
+        }
+    }
+
+    public function storeIngredient(){
+        if(!Auth::user()->isAdmin()){
+            return view('error', ['error' => __('auth.notAdmin')]);
+        } else {
+            $ingredient = new Ingredient($this->validateNewIngredient());
+            $ingredient->save();
+            return redirect(route('ingredient.control'));
+        }
+    }
+
+    public function editIngredient(){
+        if(!Auth::user()->isAdmin()){
+            return view('error', ['error' => __('auth.notAdmin')]);
+        } else {
+            
+            return redirect(route('ingredient.control'));
+        }
+    }
+
+    private function validateNewIngredient(){
+        return request()->validate([
+            'name' => 'required|string',
+            'category_id' => 'required|numeric|exists:categories,id',
+        ]);
     }
 
     private function validateAddIngredient(){

@@ -13,7 +13,7 @@
         
         <div class="grid grid-cols-3 gap-4">
         <!-- Ingredients overview -->
-            <div class="overflow-auto h-64 container bg-gray-50 rounded-md shadow mb-3 mr-3 col-auto">
+            <div class="overflow-auto h-64 container bg-gray-50 rounded-md shadow p-3 col-auto">
                 <h3 class="text-l text-gray-800">Your ingredients:</h3>
                 @forelse($ingredientsSupply as $ingredient)
                     <!-- <img class="h-5 w-5 inline" src="{{$ingredient->ingredient->category->icon}}"> {{$ingredient->amount}} {{ucfirst($ingredient->ingredient->name)}}<br /> -->
@@ -23,7 +23,7 @@
                 @endforelse
             </div>
 
-            <div class="overflow-auto h-64 container bg-gray-50 rounded-md shadow mb-3 mr-3 col-span-2">
+            <div class="overflow-auto h-64 container bg-gray-50 rounded-md shadow p-3 col-span-2">
                 <h3 class="text-l text-gray-800">Your meals</h3>
                 @forelse($meals as $meal)
                     {{$meal->name}}
@@ -38,7 +38,7 @@
             </div>
 
             <!-- Add ingredient -->
-            <div class="overflow-auto h-24 container bg-gray-50 rounded-md shadow mb-3 mr-3 col-auto">
+            <div class="overflow-auto h-24 container bg-gray-50 rounded-md shadow p-3 col-auto">
                 <h3 class="text-l text-gray-800">Add ingredients:</h3>
                 <form action="{{route('supply.add')}}" method="POST">
                 @csrf

@@ -33,11 +33,10 @@
                     {{ __('None') }}
                 </x-nav-link> 
 
-                <x-nav-link :href="route('dashboard.index')" :active="request()->routeIs('dashboard.index')">
-                    {{ __('None') }}
-                </x-nav-link> 
-
                 @if(Auth::user() && Auth::user()->isAdmin())
+                <x-nav-link :href="route('ingredient.control')" :active="request()->routeIs('ingredient.control')">
+                    {{ __('Ingredients') }}
+                </x-nav-link> 
                 <!-- Logged in admin -->
                 <x-nav-link :href="route('dashboard.index')" :active="request()->routeIs('dashboard.index')">
                     {{ __('Admin') }}
@@ -79,7 +78,7 @@
                     <x-slot name="trigger">
                         <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
                             <span class="sr-only">Open user menu</span>
-                            <img class="h-8 w-8" src="https://seekicon.com/free-icon-download/user-id_1.svg" alt="">
+                            <img class="h-8 w-8" src="{{url('storage/icons/user_icon.svg')}}" alt="">
                         </button>
                     </x-slot>
               <!--

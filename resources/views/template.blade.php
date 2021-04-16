@@ -17,3 +17,13 @@
 <x-button class="ml-3">
     {{ __('Submit') }}
 </x-button>
+
+
+
+<!-- Form -->
+
+
+<form action="{{route('')}}" method="">
+    <x-label for="" :value="__('')"></x-label>
+    <x-input id="" class="block mt-1 w-full" type="" name="" :value="old('')" required autofocus />
+</form>

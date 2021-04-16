@@ -23,8 +23,12 @@ use App\Http\Controllers\UserController;
 
 Route::get('/', 'App\Http\Controllers\MealController@index')->middleware('auth')->name('dashboard.index');
 
+Route::get('/ingredients', 'App\Http\Controllers\IngredientController@ingredientControl')->middleware('auth')->name('ingredient.control');
+Route::post('/ingredients', 'App\Http\Controllers\IngredientController@storeIngredient')->middleware('auth')->name('ingredient.store');
+Route::put('/ingredients', 'App\Http\Controllers\IngredientController@editIngredient')->middleware('auth')->name('ingredient.put');
 
 
 Route::post('/', 'App\Http\Controllers\IngredientController@addSupply')->middleware('auth')->name('supply.add');
 
 require __DIR__.'/auth.php';
+

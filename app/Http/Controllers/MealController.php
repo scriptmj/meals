@@ -14,7 +14,7 @@ class MealController extends Controller
     public function index(){
         $ingredientsSupply = Auth::user()->ingredients;
         $meals = $this->findAllValidMeals($ingredientsSupply);
-        $ingredients = Ingredient::get();
+        $ingredients = Ingredient::orderBy('name')->get();
         return view('dashboard.dashboard', ['ingredientsSupply' => $ingredientsSupply, 'meals' => $meals, 'ingredients' => $ingredients]);
     }
 

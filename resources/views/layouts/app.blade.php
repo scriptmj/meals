@@ -13,6 +13,7 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/meals.css') }}">
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -38,5 +39,6 @@
         </div>
       </main>
     </div>
+    <script src="{{ asset('js/meals.js') }}" defer></script>
   </body>
 </html>
