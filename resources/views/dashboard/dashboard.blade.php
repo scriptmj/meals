@@ -16,7 +16,8 @@
             <div class="overflow-auto h-64 container bg-gray-50 rounded-md shadow mb-3 mr-3 col-auto">
                 <h3 class="text-l text-gray-800">Your ingredients:</h3>
                 @forelse($ingredientsSupply as $ingredient)
-                    <img class="h-5 w-5 inline" src="{{$ingredient->ingredient->category->icon}}"> {{$ingredient->amount}} {{ucfirst($ingredient->ingredient->name)}}<br />
+                    <!-- <img class="h-5 w-5 inline" src="{{$ingredient->ingredient->category->icon}}"> {{$ingredient->amount}} {{ucfirst($ingredient->ingredient->name)}}<br /> -->
+                    <img class="h-5 w-5 inline" src="{{url('storage/icons/'.$ingredient->ingredient->category->icon.'.svg')}}"> {{$ingredient->amount}} {{ucfirst($ingredient->ingredient->name)}}<br />
                 @empty
                     None so far. Add some!
                 @endforelse
@@ -27,7 +28,7 @@
                 @forelse($meals as $meal)
                     {{$meal->name}}
                     @forelse($meal->categories as $category)
-                        <img class="h-5 w-5 inline" src="{{$category->icon}}">
+                        <img class="h-5 w-5 inline" src="{{url('storage/icons/'.$category->icon.'.svg')}}">
                     @empty
                     @endforelse
                     <br />

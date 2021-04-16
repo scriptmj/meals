@@ -21,10 +21,10 @@ use App\Http\Controllers\UserController;
 //     return view('welcome');
 // });
 
-Route::get('/', 'App\Http\Controllers\MealController@index')->name('dashboard.index');
+Route::get('/', 'App\Http\Controllers\MealController@index')->middleware('auth')->name('dashboard.index');
 
 
 
-Route::post('/', 'App\Http\Controllers\IngredientController@addSupply')->name('supply.add');
+Route::post('/', 'App\Http\Controllers\IngredientController@addSupply')->middleware('auth')->name('supply.add');
 
 require __DIR__.'/auth.php';

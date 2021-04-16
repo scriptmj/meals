@@ -1,1 +1,1 @@
-<img src="https://seekicon.com/free-icon-download/food-dome_1.svg" alt="food dome icon" width="100%" height="100%">
+<img src="{{url('storage/icons/meals_logo.svg')}}" alt="Meals icon" width="100%" height="100%">
