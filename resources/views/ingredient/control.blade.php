@@ -10,7 +10,7 @@
 <div class="grid grid-cols-2 gap-4 grid-flow-col">
 
 <!-- Ingredient overview -->
-<div class="overflow-auto h-100 container bg-gray-50 rounded-md shadow p-3 row-span-2">
+<div class="overflow-auto h-100 container bg-gray-50 rounded-md shadow p-3 row-span-3">
         <h2 class="font-semibold text-xl text-gray-800 mb-3">Ingredients</h2>
 
         <x-validation-errors class="mb-4" :errors="$errors" />
@@ -28,7 +28,18 @@
                 <tr>
                     <td>{{ucfirst($ingredient->name)}}</td>
                     <td><img class="h-5 w-5 inline" src="{{url('storage/icons/'.$ingredient->category->icon.'.svg')}}"></td>
-                    <td>Edit/Delete</td>
+                    <td>
+                        <x-button onclick="openEditPanel({{$ingredient}})" class="h-5">
+                            Edit
+                        </x-button>
+                        <form action="{{route('ingredient.delete', $ingredient)}}" method="post" class="inline">
+                            @csrf
+                            @method('DELETE')
+                            <x-button class="h-5" onclick="return confirm('Are you sure you want delete {{$ingredient->name}}?')">
+                                Delete
+                            </x-button>
+                        </form>
+                    </td>
                 </tr>
         @empty
                 <tr><td>No ingredients</td></tr>
@@ -71,16 +82,17 @@
 
         <x-validation-errors class="mb-4" :errors="$errors" />
 
-        <form action="{{route('ingredient.store')}}" method="POST">
+        <form action="{{route('ingredient.put')}}" method="POST">
         @csrf
         @method('PUT')
-            <x-label for="name" :value="__('Name')"></x-label>
-            <x-input id="name" class="block mt-1 w-64 mb-2" type="text" name="name" :value="old('name')" required />
+            <input type="hidden" id="edit-id" name="id"></input>
+            <x-label for="edit-name" :value="__('Name')"></x-label>
+            <x-input id="edit-name" class="block mt-1 w-64 mb-2" type="text" name="name" :value="old('name')" required />
 
             <x-label for="category" :value="__('Category')"></x-label>
             <select 
                 class="rounded-md shadow-sm mb-2 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                name="category_id" id="category">
+                name="category_id" id="edit-category">
                     @forelse($categories as $category)
                     <option value="{{$category->id}}">{{ucfirst($category->name)}}</option>
                     @empty
@@ -88,7 +100,7 @@
             </select>
 
             <x-button class="ml-3">
-                {{ __('Add') }}
+                {{ __('Edit') }}
             </x-button>
         </form>
     </div>

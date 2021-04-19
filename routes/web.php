@@ -26,6 +26,7 @@ Route::get('/', 'App\Http\Controllers\MealController@index')->middleware('auth')
 Route::get('/ingredients', 'App\Http\Controllers\IngredientController@ingredientControl')->middleware('auth')->name('ingredient.control');
 Route::post('/ingredients', 'App\Http\Controllers\IngredientController@storeIngredient')->middleware('auth')->name('ingredient.store');
 Route::put('/ingredients', 'App\Http\Controllers\IngredientController@editIngredient')->middleware('auth')->name('ingredient.put');
+Route::delete('/ingredients/{ingredient}', 'App\Http\Controllers\IngredientController@deleteIngredient')->middleware('auth')->name('ingredient.delete');
 
 
 Route::post('/', 'App\Http\Controllers\IngredientController@addSupply')->middleware('auth')->name('supply.add');

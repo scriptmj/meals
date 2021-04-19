@@ -2,9 +2,9 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
         <div class="flex items-center">
-          <div class="flex-shrink-0">
+          <div class="flex-shrink-0 w-14">
           <a href="/">
-            <img class="h-10 w-10" src="https://seekicon.com/free-icon-download/food-dome_1.svg" alt="Workflow">
+            <x-application-logo />
             </a>
           </div>
           <!-- Nav -->

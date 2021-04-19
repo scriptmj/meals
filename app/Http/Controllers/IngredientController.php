@@ -54,7 +54,20 @@ class IngredientController extends Controller
         if(!Auth::user()->isAdmin()){
             return view('error', ['error' => __('auth.notAdmin')]);
         } else {
-            
+            $this->validateNewIngredient();
+            $ingredient = Ingredient::find(request('id'));
+            $ingredient->name = request('name');
+            $ingredient->category_id = request('category_id');
+            $ingredient->update();
+            return redirect(route('ingredient.control'));
+        }
+    }
+
+    public function deleteIngredient(Ingredient $ingredient){
+        if(!Auth::user()->isAdmin()){
+            return view('error', ['error' => __('auth.notAdmin')]); 
+        } else {
+            $ingredient->delete();
             return redirect(route('ingredient.control'));
         }
     }
