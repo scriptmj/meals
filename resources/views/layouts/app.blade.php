@@ -39,6 +39,8 @@
         </div>
       </main>
     </div>
+    
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src="{{ asset('js/meals.js') }}" defer></script>
   </body>
 </html>

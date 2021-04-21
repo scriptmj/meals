@@ -2,7 +2,7 @@
     <!-- Header -->
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('New ingredient') }}
+            {{ __('Ingredient') }}
         </h2>
     </x-slot>
 
@@ -29,7 +29,7 @@
                     <td>{{ucfirst($ingredient->name)}}</td>
                     <td><img class="h-5 w-5 inline" src="{{url('storage/icons/'.$ingredient->category->icon.'.svg')}}"></td>
                     <td>
-                        <x-button onclick="openEditPanel({{$ingredient}})" class="h-5">
+                        <x-button onclick="openEditIngredientPanel({{$ingredient}})" class="h-5">
                             Edit
                         </x-button>
                         <form action="{{route('ingredient.delete', $ingredient)}}" method="post" class="inline">

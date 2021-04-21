@@ -45,6 +45,7 @@ class IngredientController extends Controller
             return view('error', ['error' => __('auth.notAdmin')]);
         } else {
             $ingredient = new Ingredient($this->validateNewIngredient());
+            $ingredient->name = strtolower($ingredient->name);
             $ingredient->save();
             return redirect(route('ingredient.control'));
         }
@@ -56,7 +57,7 @@ class IngredientController extends Controller
         } else {
             $this->validateNewIngredient();
             $ingredient = Ingredient::find(request('id'));
-            $ingredient->name = request('name');
+            $ingredient->name = strtolower(request('name'));
             $ingredient->category_id = request('category_id');
             $ingredient->update();
             return redirect(route('ingredient.control'));

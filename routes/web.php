@@ -28,6 +28,13 @@ Route::post('/ingredients', 'App\Http\Controllers\IngredientController@storeIngr
 Route::put('/ingredients', 'App\Http\Controllers\IngredientController@editIngredient')->middleware('auth')->name('ingredient.put');
 Route::delete('/ingredients/{ingredient}', 'App\Http\Controllers\IngredientController@deleteIngredient')->middleware('auth')->name('ingredient.delete');
 
+Route::get('/meals', 'App\Http\Controllers\MealController@mealControl')->middleware('auth')->name('meal.control');
+Route::get('/meals/edit/{meal}', 'App\Http\Controllers\MealController@editMeal')->middleware('auth')->name('meal.edit');
+Route::get('/meals/{meal}', 'App\Http\Controllers\MealController@getMeal')->middleware('auth')->name('meal.get');
+Route::post('/meals', 'App\Http\Controllers\MealController@storeMeal')->middleware('auth')->name('meal.store');
+Route::put('/meals', 'App\Http\Controllers\MealController@putMeal')->middleware('auth')->name('meal.put');
+Route::delete('/meals', 'App\Http\Controllers\MealController@deleteMeal')->middleware('auth')->name('meal.delete');
+
 
 Route::post('/', 'App\Http\Controllers\IngredientController@addSupply')->middleware('auth')->name('supply.add');
 

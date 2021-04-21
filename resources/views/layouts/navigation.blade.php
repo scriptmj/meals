@@ -21,7 +21,7 @@
                     {{ __('Home') }}
                 </x-nav-link> 
 
-                <x-nav-link :href="route('dashboard.index')" :active="request()->routeIs('dashboard.index')">
+                <!-- <x-nav-link :href="route('dashboard.index')" :active="request()->routeIs('dashboard.index')">
                     {{ __('None') }}
                 </x-nav-link> 
 
@@ -31,15 +31,15 @@
 
                 <x-nav-link :href="route('dashboard.index')" :active="request()->routeIs('dashboard.index')">
                     {{ __('None') }}
-                </x-nav-link> 
+                </x-nav-link>  -->
 
                 @if(Auth::user() && Auth::user()->isAdmin())
+                <!-- Logged in admin -->
                 <x-nav-link :href="route('ingredient.control')" :active="request()->routeIs('ingredient.control')">
                     {{ __('Ingredients') }}
                 </x-nav-link> 
-                <!-- Logged in admin -->
-                <x-nav-link :href="route('dashboard.index')" :active="request()->routeIs('dashboard.index')">
-                    {{ __('Admin') }}
+                <x-nav-link :href="route('meal.control')" :active="request()->routeIs('meal.control')">
+                    {{ __('Meals') }}
                 </x-nav-link> 
                 @endif
 
