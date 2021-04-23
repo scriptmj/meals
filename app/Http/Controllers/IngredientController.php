@@ -30,6 +30,22 @@ class IngredientController extends Controller
         return redirect(route('dashboard.index'));
     }
 
+    public function deleteSupply(IngredientsSupply $ingredientsSupply){
+        $ingredientsSupply->delete();
+        return redirect(route('dashboard.index'));
+    }
+
+    public function getIngredientsSupply(IngredientsSupply $ingredientsSupply){
+        $ingredientsSupply->name = $ingredientsSupply->ingredient->name;
+        $ingredientsSupply->icon = $ingredientsSupply->ingredient->category->icon;
+        return $ingredientsSupply;
+    }
+
+    public function updateSupply(IngredientsSupply $ingredientsSupply){
+        $ingredientsSupply->amount = request('amount');
+        $ingredientsSupply->update();
+    }
+
     public function ingredientControl(){
         if(!Auth::user()->isAdmin()){
             return view('error', ['error' => __('auth.notAdmin')]);

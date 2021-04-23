@@ -33,10 +33,15 @@ Route::get('/meals/edit/{meal}', 'App\Http\Controllers\MealController@editMeal')
 Route::get('/meals/{meal}', 'App\Http\Controllers\MealController@getMeal')->middleware('auth')->name('meal.get');
 Route::post('/meals', 'App\Http\Controllers\MealController@storeMeal')->middleware('auth')->name('meal.store');
 Route::put('/meals/edit/{meal}', 'App\Http\Controllers\MealController@putMeal')->middleware('auth')->name('meal.put');
-Route::delete('/meals', 'App\Http\Controllers\MealController@deleteMeal')->middleware('auth')->name('meal.delete');
+Route::delete('/meals/{meal}', 'App\Http\Controllers\MealController@deleteMeal')->middleware('auth')->name('meal.delete');
+
+Route::get('/meal/recipe/{meal}', 'App\Http\Controllers\MealController@seeMealPage')->middleware('auth')->name('meal.recipe');
 
 
 Route::post('/', 'App\Http\Controllers\IngredientController@addSupply')->middleware('auth')->name('supply.add');
+Route::delete('/ingredientsSupply/{ingredientsSupply}', 'App\Http\Controllers\IngredientController@deleteSupply')->middleware('auth')->name('supply.delete');
+Route::put('/ingredientsSupply/{ingredientsSupply}', 'App\Http\Controllers\IngredientController@updateSupply')->middleware('auth')->name('supply.put');
+Route::get('/ingredientsSupply/{ingredientsSupply}', 'App\Http\Controllers\IngredientController@getIngredientsSupply')->middleware('auth')->name('supply.get');
 
 require __DIR__.'/auth.php';
 

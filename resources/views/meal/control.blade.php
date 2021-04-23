@@ -25,7 +25,7 @@
         @forelse($meals as $meal)
                 <tr>
                     <td>
-                        <button onclick="getMealInfo('{{$meal->id}}', 'see')">
+                        <button onclick="getMealInfo('{{$meal->id}}')">
                             {{ucfirst($meal->name)}}
                         </button>
                     </td>

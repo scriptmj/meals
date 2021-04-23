@@ -15,18 +15,43 @@
         <!-- Ingredients overview -->
             <div class="overflow-auto h-64 container bg-gray-50 rounded-md shadow p-3 col-auto">
                 <h3 class="text-l text-gray-800">Your ingredients:</h3>
+                <table>
                 @forelse($ingredientsSupply as $ingredient)
-                    <!-- <img class="h-5 w-5 inline" src="{{$ingredient->ingredient->category->icon}}"> {{$ingredient->amount}} {{ucfirst($ingredient->ingredient->name)}}<br /> -->
-                    <img class="h-5 w-5 inline" src="{{url('storage/icons/'.$ingredient->ingredient->category->icon.'.svg')}}"> {{$ingredient->amount}} {{ucfirst($ingredient->ingredient->name)}}<br />
+                <tr id="row{{$ingredient->id}}">
+                    <td>
+                        <img class="h-5 w-5 inline" src="{{url('storage/icons/'.$ingredient->ingredient->category->icon.'.svg')}}"> 
+                    </td>
+                    <td id="itemAmount{{$ingredient->id}}">
+                        {{$ingredient->amount}} 
+                    </td>
+                    <td>
+                        {{ucfirst($ingredient->ingredient->name)}}
+                    </td>
+                    <td id="itemButtons{{$ingredient->id}}">
+                        <x-button onclick="toggleEditIngredientSupply({{$ingredient->id}})" class="h-5">
+                            Edit
+                        </x-button>
+                        <form action="{{route('supply.delete', $ingredient)}}" method="post" class="inline">
+                            @csrf
+                            @method('DELETE')
+                            <x-button class="h-5" onclick="return confirm('Are you sure you want delete {{$ingredient->ingredient->name}}?')">
+                                Delete
+                            </x-button>
+                        </form>
+                    </td>
+                </tr>
                 @empty
                     None so far. Add some!
                 @endforelse
+                </table>
             </div>
 
-            <div class="overflow-auto h-64 container bg-gray-50 rounded-md shadow p-3 col-span-2">
+            <div class="overflow-auto h-64 container bg-gray-50 rounded-md shadow p-3">
                 <h3 class="text-l text-gray-800">Your meals</h3>
                 @forelse($meals as $meal)
-                    {{$meal->name}}
+                    <button onclick="getMealInfo('{{$meal->id}}')">
+                    {{ucfirst($meal->name)}}
+                    </button>
                     @forelse($meal->categories as $category)
                         <img class="h-5 w-5 inline" src="{{url('storage/icons/'.$category->icon.'.svg')}}">
                     @empty
@@ -37,8 +62,18 @@
                 @endforelse
             </div>
 
+            <div class="overflow-auto h-auto container bg-gray-50 rounded-md shadow p-3 col-auto hidden" id="seeMealPanel">
+                <h2 class="font-semibold text-xl text-gray-800 mb-3" id="seeMealTitle"></h2>
+                Ingredients:
+                <p id="seeMealIngredients"></p>
+                <br />
+                Categories:
+                <p id="seeMealCategories"></p>
+                <br />
+            </div>
+
             <!-- Add ingredient -->
-            <div class="overflow-auto h-24 container bg-gray-50 rounded-md shadow p-3 col-auto">
+            <div class="overflow-auto h-32 container bg-gray-50 rounded-md shadow p-3 col-auto row-start-2">
                 <h3 class="text-l text-gray-800">Add ingredients:</h3>
                 <form action="{{route('supply.add')}}" method="POST">
                 @csrf
@@ -56,6 +91,9 @@
                 </x-button>
                 </form>
             </div>
+
+
+
         </div>
     </div>
 </x-app-layout>

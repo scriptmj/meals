@@ -18,6 +18,7 @@ class CreateMealsTable extends Migration
             $table->timestamps();
             $table->string('name');
             $table->integer('size')->default(1);
+            $table->longtext('recipe')->nullable();
         });
     }
 

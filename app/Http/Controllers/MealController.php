@@ -27,7 +27,7 @@ class MealController extends Controller
             foreach($ingredients as $ingredient){
                 if(!$supply->contains('ingredient_id', $ingredient->ingredient_id)){
                     break;
-                } else if($supply->keyBy('ingredient_id')->first()->amount < $ingredient->amount){
+                } else if($supply->firstWhere('ingredient_id', $ingredient->ingredient_id)->amount < $ingredient->amount){
                     break;
                 } else if($ingredient == $ingredients->last()){
                     $validMeals->push($meal);
@@ -48,7 +48,7 @@ class MealController extends Controller
         }
     }
 
-    public function storeMeal(){
+    public function storeMeal(App\Http\Requests\Meal $mealRequest){
         if(!Auth::user()->isAdmin()){
             return view('error', ['error' => __('auth.notAdmin')]);
         } else {
@@ -112,8 +112,17 @@ class MealController extends Controller
         }
     }
 
-    public function deleteMeal(){
+    public function deleteMeal(Meal $meal){
+        if(!Auth::user()->isAdmin()){
+            return view('error', ['error' => __('auth.notAdmin')]);
+        } else {
+            $meal->delete();
+            return redirect(route('meal.control'));
+        }
+    }
 
+    public function seeMealPage(Meal $meal){
+        return view('meal.recipe', ['meal' => $meal]);
     }
 
     private function validateNewMeal(){

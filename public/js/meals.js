@@ -1,7 +1,7 @@
-
 var count = 1;
 var selectFieldClass="rounded-md shadow-sm mb-2 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 mr-1";
 var inputFieldClass="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 inline-block mt-1 w-20 mb-2";
+var buttonClass="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150";
 var ingredientCount = document.getElementById('ingredientCount');
 
 // Ingredient control panel
@@ -71,6 +71,7 @@ function showIngredientsPanel(meal){
     for(var i = 0 ; i < meal.categories.length ; i++){
         seeMealCategories.appendChild(createImageElement(meal.categories[i].icon, 'w-5 h-5 inline'));
     }
+    seeMealPanel.appendChild(createLink('/meal/recipe/'+meal.id, 'See recipe'));
 }
 
 function clearShowIngredientsPanel(){
@@ -78,16 +79,12 @@ function clearShowIngredientsPanel(){
     seeMealIngredients.innerHTML = '';
 }
 
-function getMealInfo(mealId, type){
+function getMealInfo(mealId){
     var url = '/meals/' + mealId;
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if(this.readyState == 4 && this.status == 200){
-            if(type === "see"){
-                showIngredientsPanel(JSON.parse(this.response));
-            } else if(type === "edit"){
-                editMeal(JSON.parse(this.response));
-            }
+            showIngredientsPanel(JSON.parse(this.response));
         }
     }
     xhttp.open('GET', url, true);
@@ -128,6 +125,13 @@ function createInputField(type, name){
     return inputField;
 }
 
+function createLink(src, text){
+    var a = document.createElement('a');
+    a.setAttribute('href', src);
+    a.innerHTML = text;
+    return a;
+}
+
 // function createTextElement(text){
 //     var textElement = document.createElement('p');
 //     textElement.textContent = text;
@@ -149,3 +153,56 @@ function catchIngredientCount(){
 }
 
 catchIngredientCount();
+
+
+function toggleEditIngredientSupply(ingredientSupplyId){
+    var url = '/ingredientsSupply/' + ingredientSupplyId;
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if(this.readyState == 4 && this.status == 200){
+            toggleEditSupply(JSON.parse(this.response));
+        }
+    }
+    xhttp.open('GET', url, true);
+    xhttp.setRequestHeader('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));
+    xhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+    xhttp.send();
+}
+
+function toggleEditSupply(ingredientSupply){
+    var row = document.getElementById('row'+ingredientSupply.id)
+    row.innerHTML = '';
+    var td = document.createElement('td');
+    td.setAttribute('colspan', '4');
+    var inputField = createInputField('number', 'ingredientAmount');
+    td.appendChild(inputField);
+    var submitButton = createButton('submit', 'Save');
+    submitButton.setAttribute('onclick', 'updateSupply('+ingredientSupply.id+')');
+    td.appendChild(submitButton);
+    row.appendChild(td);
+}
+
+function createButton(type, text){
+    var button = document.createElement('button');
+    button.setAttribute('type', type);
+    button.setAttribute('class', buttonClass);
+    button.innerHTML = text;
+    return button;
+}
+
+function updateSupply(ingredientSupplyId){
+    var url = '/ingredientsSupply/' + ingredientSupplyId;
+    var xhttp = new XMLHttpRequest();
+    var inputItem = document.getElementById('ingredientAmount');
+    xhttp.onreadystatechange = function() {
+        if(this.readyState == 4 && this.status == 200){
+            location.reload();
+        } else {
+            console.log(this.response);
+        }
+    }
+    xhttp.open('PUT', url, true);
+    xhttp.setRequestHeader('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));
+    xhttp.setRequestHeader('Content-type', "application/x-www-form-urlencoded");
+    xhttp.send("amount="+inputItem.value);
+}
