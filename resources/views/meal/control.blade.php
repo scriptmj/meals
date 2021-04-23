@@ -13,8 +13,6 @@
 <div class="overflow-auto h-100 container bg-gray-50 rounded-md shadow p-3 row-span-3">
         <h2 class="font-semibold text-xl text-gray-800 mb-3">Meals</h2>
 
-        <x-validation-errors class="mb-4" :errors="$errors" />
-
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="text-left">
                 <tr>
@@ -37,10 +35,10 @@
                     @empty
                     @endforelse</td>
                     <td>
-                        <x-button onclick="getMealInfo('{{$meal->id}}', 'edit')"
+                        <a href="{{route('meal.edit', $meal)}}"
                         class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150 h-5">
                             Edit
-                        </x-button>
+                        </a>
                         <form action="{{route('meal.delete', $meal)}}" method="post" class="inline">
                             @csrf
                             @method('DELETE')
@@ -66,13 +64,7 @@
         Categories:
         <p id="seeMealCategories"></p>
         <br />
-        <x-button class="ml-3 mb-1" type="button" id="seeMealEditButton">
-                {{ __('Edit') }}
-        </x-button>
     </div>
-
-
-<!-- Edit meal -->
 
 <!-- New meal -->
     <div class="overflow-auto h-auto container bg-gray-50 rounded-md shadow p-3 col-auto">
@@ -80,7 +72,7 @@
 
         <x-validation-errors class="mb-4" :errors="$errors" />
 
-        <form action="{{route('meal.put')}}" method="POST">
+        <form action="{{route('meal.store')}}" method="POST">
         @csrf
             <x-label for="name" :value="__('Name')"></x-label>
             <x-input id="name" class="block mt-1 w-64 mb-2" type="text" name="name" :value="old('name')" required />
@@ -114,45 +106,12 @@
                 {{ __('Remove last ingredient') }}
             </x-button>
 
-<br />
+            <br />
             <x-button class="ml-3">
                 {{ __('Add') }}
             </x-button>
         </form>
     </div>
-
-
-<!-- Edit meal -->
-<div id="edit-meal" class="hidden">
-    <div class="overflow-auto h-56 container bg-gray-50 rounded-md shadow p-3 col-auto">
-        <h2 class="font-semibold text-xl text-gray-800 mb-3">Edit meal</h2>
-
-        <x-validation-errors class="mb-4" :errors="$errors" />
-
-        <form action="{{route('meal.put')}}" method="POST">
-        @csrf
-        @method('PUT')
-            <input type="hidden" id="edit-id" name="id"></input>
-            <x-label for="edit-name" :value="__('Name')"></x-label>
-            <x-input id="edit-name" class="block mt-1 w-64 mb-2" type="text" name="name" :value="old('name')" required />
-
-            <x-label for="category" :value="__('Category')"></x-label>
-            <select 
-                class="rounded-md shadow-sm mb-2 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                name="category_id" id="edit-category">
-                    @forelse($categories as $category)
-                    <option value="{{$category->id}}">{{ucfirst($category->name)}}</option>
-                    @empty
-                    @endforelse
-            </select>
-
-            <x-button class="ml-3">
-                {{ __('Edit') }}
-            </x-button>
-        </form>
-    </div>
-    </div>
-</div>
 
 </x-app-layout>
 

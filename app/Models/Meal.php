@@ -13,7 +13,6 @@ class Meal extends Model
 
     protected $fillable = ['name', 'size'];
 
-    //TODO doesn't work
     public function ingredients(){
         return $this->hasManyThrough('App\Models\Ingredient', 'App\Models\MealIngredients', 'meal_id', 'id', 'id', 'ingredient_id');
     }
@@ -26,10 +25,22 @@ class Meal extends Model
         return $this->belongsToMany('App\Models\Category','meals_categories', 'meal_id');
     }
 
+    public function isCategorySelected($selectedCategory){
+        return $this->categories->contains($selectedCategory);
+    }
+
+    public function isIngredientSelected($selectedIngredient){
+        return $this->ingredients->contains($selectedIngredient);
+    }
+
+    public function ingredientCount(){
+        return $this->ingredientsNeeded->count();
+    }
+
     public function mealIngredients(){
         $ingredients = DB::table('meals_ingredients')
             ->join('ingredients', 'meals_ingredients.ingredient_id', 'ingredients.id')
-            ->select('meals_ingredients.amount', 'ingredients.name')
+            ->select('meals_ingredients.amount', 'ingredients.name', 'ingredients.id')
             ->where('meal_id', $this->id)
             ->get();
         return $ingredients;

@@ -52,7 +52,6 @@ class MealController extends Controller
         if(!Auth::user()->isAdmin()){
             return view('error', ['error' => __('auth.notAdmin')]);
         } else {
-            //dd(request());
             $meal = new Meal($this->validateNewMeal());
             $meal->name = strtolower($meal->name);
             $meal->save();
@@ -87,8 +86,30 @@ class MealController extends Controller
         return $meal;
     }
 
-    public function putMeal(){
-
+    public function putMeal(Meal $meal){
+        if(!Auth::user()->isAdmin()){
+            return view('error', ['error' => __('auth.notAdmin')]);
+        } else {
+            $meal->update($this->validateNewMeal());
+            for($i = 1 ; $i <= request('count') ; $i++){
+                $this->validateIndividualIngredient($i);
+                $existingIngredient = $this->findExistingMealIngredients($meal, $i);
+                if($existingIngredient){
+                    if($existingIngredient->amount != request('ingredientAmount'.$i)){
+                        $existingIngredient->amount = request('ingredientAmount'.$i);
+                        $existingIngredient->update();
+                    }
+                } else {
+                    $ingredient = new MealIngredients();
+                    $ingredient->meal_id = $meal->id;
+                    $ingredient->ingredient_id = request('ingredient'.$i);
+                    $ingredient->amount = request('ingredientAmount'.$i);
+                    $ingredient->save();
+                }
+            }
+            $meal->categories()->sync(request('categories'));
+            return redirect(route('meal.control'));
+        }
     }
 
     public function deleteMeal(){
@@ -107,5 +128,9 @@ class MealController extends Controller
             'ingredient'.$count => 'required|exists:ingredients,id|numeric',
             'ingredientAmount'.$count => 'required|numeric|gte:1',
         ]);
+    }
+
+    private function findExistingMealIngredients($meal, $count){
+        return MealIngredients::where('meal_id', $meal->id)->where('ingredient_id', request('ingredient'.$count))->get()->first();
     }
 }

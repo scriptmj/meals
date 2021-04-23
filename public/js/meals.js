@@ -35,6 +35,8 @@ function addAnotherIngredientField(ingredientArray){
     ingredientCount.setAttribute('value', count);
     var ingredientsSelect = createSelectField(ingredientArray, 'ingredient'+count);
     var ingredientAmount = createInputField('number', 'ingredientAmount'+count);
+    ingredientsSelect.required = true;
+    ingredientAmount.required = true;
     var inputDiv = document.createElement('div');
     inputDiv.setAttribute('id', 'field'+count);
     inputDiv.appendChild(ingredientsSelect);
@@ -57,7 +59,6 @@ var seeMealPanel = document.getElementById('seeMealPanel');
 var seeMealTitle = document.getElementById('seeMealTitle');
 var seeMealIngredients = document.getElementById('seeMealIngredients');
 var seeMealCategories = document.getElementById('seeMealCategories');
-var seeMealEditButton = document.getElementById('seeMealEditButton');
 
 // Show ingredients when clicking on a meal
 function showIngredientsPanel(meal){
@@ -70,7 +71,6 @@ function showIngredientsPanel(meal){
     for(var i = 0 ; i < meal.categories.length ; i++){
         seeMealCategories.appendChild(createImageElement(meal.categories[i].icon, 'w-5 h-5 inline'));
     }
-    seeMealEditButton.setAttribute('onclick', "getMealInfo("+meal.id+", 'edit')");
 }
 
 function clearShowIngredientsPanel(){
@@ -94,11 +94,6 @@ function getMealInfo(mealId, type){
     xhttp.setRequestHeader('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));
     xhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
     xhttp.send();
-}
-
-function editMeal(meal){
-    hideMealInfo();
-    //Show edit panel with all important information
 }
 
 function hideMealInfo(){
@@ -145,3 +140,12 @@ function createImageElement(src, classAttr){
     imageElement.setAttribute('class', classAttr)
     return imageElement;
 }
+
+function catchIngredientCount(){
+    ingredientCountInput = document.getElementById('ingredientCount');
+    if(ingredientCountInput){
+        count = ingredientCountInput.value;
+    }
+}
+
+catchIngredientCount();
