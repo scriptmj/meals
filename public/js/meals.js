@@ -30,7 +30,21 @@ function openEditMealPanel(meal){
 }
 
 // Meal control: adding new ingredient fields to a new meal
-function addAnotherIngredientField(ingredientArray){
+function addAnotherIngredientField(){
+    var url = '/allingredients';
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if(this.readyState == 4 && this.status == 200){
+            setNewIngredientField(JSON.parse(this.response));
+        }
+    }
+    xhttp.open('GET', url, true);
+    xhttp.setRequestHeader('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));
+    xhttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+    xhttp.send();
+}
+
+function setNewIngredientField(ingredientArray){
     count++;
     ingredientCount.setAttribute('value', count);
     var ingredientsSelect = createSelectField(ingredientArray, 'ingredient'+count);

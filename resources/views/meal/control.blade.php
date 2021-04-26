@@ -99,12 +99,18 @@
             <x-input id="ingredientAmount1" class="inline-block mt-1 w-20 mb-2" type="number" name="ingredientAmount1" :value="old('ingredientAmount1')" required />
             <div id="ingredientsDiv"></div>
             <br />
-            <x-button class="ml-3 mb-1" type="button" onclick="addAnotherIngredientField({{$ingredients}})">
+            <x-button class="ml-3 mb-1" type="button" onclick="addAnotherIngredientField()">
                 {{ __('Add another ingredient') }}
             </x-button>
             <x-button class="ml-3 mb-1" type="button" onclick="removeLastIngredientField()">
                 {{ __('Remove last ingredient') }}
             </x-button>
+
+            <br />
+            <br />
+            <x-label for="recipe" :value="__('Recipe')"></x-label>
+            <x-textarea id="recipe" name="recipe" rows="8" />
+
 
             <br />
             <x-button class="ml-3">

@@ -58,7 +58,7 @@
             @endforelse
             <div id="ingredientsDiv"></div>
             <br />
-            <x-button class="ml-3 mb-1" type="button" onclick="addAnotherIngredientField({{$ingredients}})">
+            <x-button class="ml-3 mb-1" type="button" onclick="addAnotherIngredientField()">
                 {{ __('Add another ingredient') }}
             </x-button>
             <x-button class="ml-3 mb-1" type="button" onclick="removeLastIngredientField()">

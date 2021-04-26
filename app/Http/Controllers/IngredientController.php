@@ -80,6 +80,11 @@ class IngredientController extends Controller
         }
     }
 
+    public function getAllIngredients(){
+        $ingredients = Ingredient::orderBy('name')->get();
+        return $ingredients;
+    }
+
     public function deleteIngredient(Ingredient $ingredient){
         if(!Auth::user()->isAdmin()){
             return view('error', ['error' => __('auth.notAdmin')]); 

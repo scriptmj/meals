@@ -28,6 +28,8 @@ Route::post('/ingredients', 'App\Http\Controllers\IngredientController@storeIngr
 Route::put('/ingredients', 'App\Http\Controllers\IngredientController@editIngredient')->middleware('auth')->name('ingredient.put');
 Route::delete('/ingredients/{ingredient}', 'App\Http\Controllers\IngredientController@deleteIngredient')->middleware('auth')->name('ingredient.delete');
 
+Route::get('/allingredients', 'App\Http\Controllers\IngredientController@getAllIngredients')->middleware('auth')->name('ingredient.get');
+
 Route::get('/meals', 'App\Http\Controllers\MealController@mealControl')->middleware('auth')->name('meal.control');
 Route::get('/meals/edit/{meal}', 'App\Http\Controllers\MealController@editMeal')->middleware('auth')->name('meal.edit');
 Route::get('/meals/{meal}', 'App\Http\Controllers\MealController@getMeal')->middleware('auth')->name('meal.get');
