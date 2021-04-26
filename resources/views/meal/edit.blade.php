@@ -16,6 +16,8 @@
         <form action="{{route('meal.put', $meal)}}" method="POST">
         @csrf
         @method('PUT')
+            <x-input id="id" class="hidden" type="number" name="id" value="{{$meal->id}}" required />
+
             <x-label for="name" :value="__('Name')"></x-label>
             <x-input id="name" class="block mt-1 w-64 mb-2" type="text" name="name" value="{{old('name', $meal->name)}}" required />
 
@@ -62,6 +64,11 @@
             <x-button class="ml-3 mb-1" type="button" onclick="removeLastIngredientField()">
                 {{ __('Remove last ingredient') }}
             </x-button>
+
+            <br />
+            <br />
+            <x-label for="recipe" :value="__('Recipe')"></x-label>
+            <x-textarea id="recipe" name="recipe" rows="8" />
 
             <br />
             <x-button class="ml-3">

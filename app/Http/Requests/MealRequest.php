@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
-class Meal extends FormRequest
+class MealRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +14,7 @@ class Meal extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return Auth::user()->isAdmin();
     }
 
     /**
@@ -24,7 +25,9 @@ class Meal extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required|string',
+            'categories' => 'required|array',
+            'recipe' => 'required|string',
         ];
     }
 }

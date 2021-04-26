@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\MealIngredients;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection;
+use App\Http\Requests\MealRequest;
 
 class MealController extends Controller
 {
@@ -48,24 +49,21 @@ class MealController extends Controller
         }
     }
 
-    public function storeMeal(App\Http\Requests\Meal $mealRequest){
-        if(!Auth::user()->isAdmin()){
-            return view('error', ['error' => __('auth.notAdmin')]);
-        } else {
-            $meal = new Meal($this->validateNewMeal());
-            $meal->name = strtolower($meal->name);
-            $meal->save();
-            for($i = 1 ; $i <= request('count') ; $i++){
-                $this->validateIndividualIngredient($i);
-                $ingredient = new MealIngredients();
-                $ingredient->meal_id = $meal->id;
-                $ingredient->ingredient_id = request('ingredient'.$i);
-                $ingredient->amount = request('ingredientAmount'.$i);
-                $ingredient->save();
-            }
-            $meal->categories()->attach(request('categories'));
-            return redirect(route('meal.control'));
+    public function storeMeal(MealRequest $mealRequest){
+        $meal = new Meal();
+        $meal->name = strtolower(request('name'));
+        $meal->recipe = request('recipe');
+        $meal->save();
+        for($i = 1 ; $i <= request('count') ; $i++){
+            $this->validateIndividualIngredient($i);
+            $ingredient = new MealIngredients();
+            $ingredient->meal_id = $meal->id;
+            $ingredient->ingredient_id = request('ingredient'.$i);
+            $ingredient->amount = request('ingredientAmount'.$i);
+            $ingredient->save();
         }
+        $meal->categories()->attach(request('categories'));
+        return redirect(route('meal.control'));
     }
 
     public function editMeal(Meal $meal){
@@ -77,6 +75,7 @@ class MealController extends Controller
             return view('meal.edit', ['meal' => $meal, 'categories' => $categories, 'ingredients' => $ingredients]);
         }
     }
+
     public function getMeal(Meal $meal){
         $meal->categories = $meal->getCategories();
         $meal->ingredients = $meal->mealIngredients();
@@ -86,30 +85,29 @@ class MealController extends Controller
         return $meal;
     }
 
-    public function putMeal(Meal $meal){
-        if(!Auth::user()->isAdmin()){
-            return view('error', ['error' => __('auth.notAdmin')]);
-        } else {
-            $meal->update($this->validateNewMeal());
-            for($i = 1 ; $i <= request('count') ; $i++){
-                $this->validateIndividualIngredient($i);
-                $existingIngredient = $this->findExistingMealIngredients($meal, $i);
-                if($existingIngredient){
-                    if($existingIngredient->amount != request('ingredientAmount'.$i)){
-                        $existingIngredient->amount = request('ingredientAmount'.$i);
-                        $existingIngredient->update();
-                    }
-                } else {
-                    $ingredient = new MealIngredients();
-                    $ingredient->meal_id = $meal->id;
-                    $ingredient->ingredient_id = request('ingredient'.$i);
-                    $ingredient->amount = request('ingredientAmount'.$i);
-                    $ingredient->save();
+    public function putMeal(MealRequest $mealRequest){
+        $meal = Meal::find(request('id'));
+        $meal->name = request('name');
+        $meal->recipe = request('recipe');
+        $meal->update();
+        for($i = 1 ; $i <= request('count') ; $i++){
+            $this->validateIndividualIngredient($i);
+            $existingIngredient = $this->findExistingMealIngredients($meal, $i);
+            if($existingIngredient){
+                if($existingIngredient->amount != request('ingredientAmount'.$i)){
+                    $existingIngredient->amount = request('ingredientAmount'.$i);
+                    $existingIngredient->update();
                 }
+            } else {
+                $ingredient = new MealIngredients();
+                $ingredient->meal_id = $meal->id;
+                $ingredient->ingredient_id = request('ingredient'.$i);
+                $ingredient->amount = request('ingredientAmount'.$i);
+                $ingredient->save();
             }
-            $meal->categories()->sync(request('categories'));
-            return redirect(route('meal.control'));
         }
+        $meal->categories()->sync(request('categories'));
+        return redirect(route('meal.control'));
     }
 
     public function deleteMeal(Meal $meal){
@@ -122,15 +120,15 @@ class MealController extends Controller
     }
 
     public function seeMealPage(Meal $meal){
-        return view('meal.recipe', ['meal' => $meal]);
+        return view('meal.recipe', ['meal' => $this->getMeal($meal)]);
     }
 
-    private function validateNewMeal(){
-        return request()->validate([
-            'name' => 'required|string',
-            'categories' => 'required|array',
-        ]);
-    }
+    // private function validateNewMeal(){
+    //     return request()->validate([
+    //         'name' => 'required|string',
+    //         'categories' => 'required|array',
+    //     ]);
+    // }
 
     private function validateIndividualIngredient($count){
         return request()->validate([
