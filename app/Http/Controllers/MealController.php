@@ -10,6 +10,9 @@ use App\Models\MealIngredients;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection;
 use App\Http\Requests\MealRequest;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+
 
 class MealController extends Controller
 {
@@ -17,7 +20,23 @@ class MealController extends Controller
         $ingredientsSupply = Auth::user()->ingredients;
         $meals = $this->findAllValidMeals($ingredientsSupply);
         $ingredients = Ingredient::orderBy('name')->get();
-        return view('dashboard.dashboard', ['ingredientsSupply' => $ingredientsSupply, 'meals' => $meals, 'ingredients' => $ingredients]);
+        $favouriteMeals = $this->getFavouriteMeals();
+        return view('dashboard.dashboard', ['ingredientsSupply' => $ingredientsSupply, 'meals' => $meals, 'ingredients' => $ingredients, 'favouriteMeals' => $favouriteMeals]);
+    }
+
+    private function getFavouriteMeals(){
+        $items = DB::table('meals_picked')->where('user_id', Auth::user()->id)->get();
+        $meals = new Collection();
+        foreach($items as $item){
+            if($meals->contains('meal_id', $item->meal_id)){
+                $meals->firstWhere('meal_id', $item->meal_id)->count += 1;
+            } else {
+                $item->count = 1;
+                $item->name = Meal::where('id', $item->meal_id)->first()->name;
+                $meals->push($item);
+            }
+        }
+        return $meals->sortByDesc('count')->take(5);
     }
 
     public function findAllValidMeals($supply){
@@ -123,13 +142,15 @@ class MealController extends Controller
         return view('meal.recipe', ['meal' => $this->getMeal($meal)]);
     }
 
-    // private function validateNewMeal(){
-    //     return request()->validate([
-    //         'name' => 'required|string',
-    //         'categories' => 'required|array',
-    //     ]);
-    // }
-
+    public function pickMeal(Meal $meal){
+        DB::table('meals_picked')->insert([
+            'meal_id' => $meal->id,
+            'user_id' => Auth::user()->id,
+            'created_at' => Carbon::now(),
+        ]);
+        return redirect(route('dashboard.index'));
+    }
+    
     private function validateIndividualIngredient($count){
         return request()->validate([
             'ingredient'.$count => 'required|exists:ingredients,id|numeric',

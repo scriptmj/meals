@@ -11,10 +11,14 @@
 
 <!-- Ingredient overview -->
 <div class="overflow-auto h-100 container bg-gray-50 rounded-md shadow p-3 row-span-3">
-    <div class="p-2">
-        <h2 class="font-semibold text-xl">
+    <div class="p-2 flexbox">
+        <h2 class="font-semibold text-xl inline">
         {{ucfirst($meal->name)}}
         </h2>
+        <form action="{{route('meal.pick', $meal)}}" method="POST" class="inline float-right">
+        @csrf
+            <x-button>I made this meal</x-button>
+        </form>
     </div>
     <hr />
     <div class="p-2">

@@ -38,6 +38,7 @@ Route::put('/meals/edit/{meal}', 'App\Http\Controllers\MealController@putMeal')-
 Route::delete('/meals/{meal}', 'App\Http\Controllers\MealController@deleteMeal')->middleware('auth')->name('meal.delete');
 
 Route::get('/meal/recipe/{meal}', 'App\Http\Controllers\MealController@seeMealPage')->middleware('auth')->name('meal.recipe');
+Route::post('/pickmeal/{meal}/', 'App\Http\Controllers\MealController@pickMeal')->middleware('auth')->name('meal.pick');
 
 
 Route::post('/', 'App\Http\Controllers\IngredientController@addSupply')->middleware('auth')->name('supply.add');

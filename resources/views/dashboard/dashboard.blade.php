@@ -92,6 +92,17 @@
                 </form>
             </div>
 
+            <!-- Favourite meals -->
+            <div class="overflow-auto h-44 container bg-gray-50 rounded-md shadow p-3 col-auto row-start-3">
+                <h3 class="text-l text-gray-800">Favourite meals:</h3>
+                <ul>
+                @forelse($favouriteMeals as $favouriteMeal)
+                    <li>{{ucfirst($favouriteMeal->name)}}: {{$favouriteMeal->count}}</li>
+                @empty
+                None yet
+                @endforelse
+                </ul>
+            </div>
 
 
         </div>
